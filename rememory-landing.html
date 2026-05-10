@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rememory — Your AI Brain</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --color-bg: #f5f4ed;
+      --color-ivory: #faf9f5;
+      --color-white: #ffffff;
+      --color-near-black: #141413;
+      --color-dark-surface: #30302e;
+      --color-terracotta: #c96442;
+      --color-coral: #d97757;
+      --color-charcoal: #4d4c48;
+      --color-olive: #5e5d59;
+      --color-stone: #87867f;
+      --color-warm-silver: #b0aea5;
+      --color-warm-sand: #e8e6dc;
+      --color-border-cream: #f0eee6;
+      --color-border-warm: #e8e6dc;
+      --color-ring-warm: #d1cfc5;
+      --color-error: #b53333;
+      --color-focus: #3898ec;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+      color: var(--color-near-black);
+      background: var(--color-bg);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Typography */
+    h1, h2, h3, h4 {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 500;
+      line-height: 1.15;
+    }
+
+    h1 {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      line-height: 1.10;
+    }
+
+    h2 {
+      font-size: clamp(2rem, 4vw, 3.25rem);
+      line-height: 1.20;
+    }
+
+    h3 {
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      line-height: 1.20;
+    }
+
+    h4 {
+      font-size: 1.3rem;
+      line-height: 1.20;
+    }
+
+    p {
+      font-size: 1.06rem;
+      line-height: 1.60;
+      color: var(--color-olive);
+    }
+
+    /* Navigation */
+    nav {
+      position: sticky;
+      top: 0;
+      background: rgba(245, 244, 237, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--color-border-cream);
+      z-index: 100;
+      padding: 0 2rem;
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+
+    .logo {
+      font-family: Georgia, serif;
+      font-size: 1.5rem;
+      font-weight: 500;
+      color: var(--color-near-black);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .logo-icon {
+      width: 32px;
+      height: 32px;
+      background: var(--color-terracotta);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1rem;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--color-olive);
+      font-size: 1rem;
+      font-weight: 400;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--color-near-black);
+    }
+
+    .nav-cta {
+      background: var(--color-terracotta);
+      color: var(--color-ivory) !important;
+      padding: 0.5rem 1.25rem;
+      border-radius: 8px;
+      font-weight: 500;
+      box-shadow: var(--color-terracotta) 0px 0px 0px 0px, var(--color-terracotta) 0px 0px 0px 1px;
+    }
+
+    .nav-cta:hover {
+      opacity: 0.9;
+    }
+
+    /* Hero Section */
+    .hero {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 8rem 2rem 6rem;
+      text-align: center;
+    }
+
+    .hero h1 {
+      color: var(--color-near-black);
+      margin-bottom: 1.5rem;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .hero-subtitle {
+      font-size: 1.25rem;
+      color: var(--color-olive);
+      max-width: 600px;
+      margin: 0 auto 2.5rem;
+      line-height: 1.60;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      margin-bottom: 4rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 500;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+    }
+
+    .btn-primary {
+      background: var(--color-terracotta);
+      color: var(--color-ivory);
+      box-shadow: var(--color-terracotta) 0px 0px 0px 0px, var(--color-terracotta) 0px 0px 0px 1px;
+    }
+
+    .btn-primary:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: var(--color-warm-sand);
+      color: var(--color-charcoal);
+      box-shadow: var(--color-warm-sand) 0px 0px 0px 0px, var(--color-ring-warm) 0px 0px 0px 1px;
+    }
+
+    .btn-secondary:hover {
+      background: var(--color-border-warm);
+    }
+
+    /* Hero Illustration */
+    .hero-visual {
+      max-width: 900px;
+      margin: 0 auto;
+      background: var(--color-ivory);
+      border: 1px solid var(--color-border-cream);
+      border-radius: 24px;
+      padding: 2rem;
+      box-shadow: rgba(0,0,0,0.05) 0px 4px 24px;
+    }
+
+    .brain-interface {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .brain-node {
+      background: var(--color-white);
+      border: 1px solid var(--color-border-cream);
+      border-radius: 16px;
+      padding: 1.5rem;
+      position: relative;
+    }
+
+    .brain-node-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .brain-node-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+    }
+
+    .icon-memory {
+      background: rgba(201, 100, 66, 0.1);
+      color: var(--color-terracotta);
+    }
+
+    .icon-thought {
+      background: rgba(93, 93, 89, 0.1);
+      color: var(--color-olive);
+    }
+
+    .icon-dream {
+      background: rgba(141, 140, 127, 0.1);
+      color: var(--color-stone);
+    }
+
+    .icon-life {
+      background: rgba(201, 100, 66, 0.15);
+      color: var(--color-coral);
+    }
+
+    .brain-node-title {
+      font-family: Georgia, serif;
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: var(--color-near-black);
+    }
+
+    .brain-node-content {
+      font-size: 0.94rem;
+      color: var(--color-stone);
+      line-height: 1.5;
+    }
+
+    .brain-connections {
+      position: absolute;
+      top: 50%;
+      right: -2rem;
+      width: 2rem;
+      height: 2px;
+      background: var(--color-border-warm);
+    }
+
+    /* Features Section */
+    .features {
+      background: var(--color-near-black);
+      padding: 6rem 2rem;
+    }
+
+    .features-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .features h2 {
+      color: var(--color-ivory);
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    .features-subtitle {
+      text-align: center;
+      color: var(--color-warm-silver);
+      font-size: 1.25rem;
+      max-width: 600px;
+      margin: 0 auto 4rem;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .feature-card {
+      background: var(--color-dark-surface);
+      border: 1px solid var(--color-dark-surface);
+      border-radius: 16px;
+      padding: 2rem;
+      transition: all 0.3s;
+    }
+
+    .feature-card:hover {
+      border-color: var(--color-olive);
+      transform: translateY(-2px);
+    }
+
+    .feature-card h3 {
+      color: var(--color-ivory);
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
+    }
+
+    .feature-card p {
+      color: var(--color-warm-silver);
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
+    .feature-icon {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    /* How It Works */
+    .how-it-works {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 6rem 2rem;
+    }
+
+    .how-it-works h2 {
+      text-align: center;
+      margin-bottom: 4rem;
+      color: var(--color-near-black);
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 3rem;
+    }
+
+    .step {
+      text-align: center;
+    }
+
+    .step-number {
+      width: 48px;
+      height: 48px;
+      background: var(--color-terracotta);
+      color: var(--color-ivory);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: Georgia, serif;
+      font-size: 1.25rem;
+      font-weight: 500;
+      margin: 0 auto 1.5rem;
+    }
+
+    .step h4 {
+      color: var(--color-near-black);
+      margin-bottom: 0.75rem;
+    }
+
+    .step p {
+      color: var(--color-olive);
+      font-size: 1rem;
+    }
+
+    /* Quote Section */
+    .quote-section {
+      background: var(--color-ivory);
+      padding: 6rem 2rem;
+      border-top: 1px solid var(--color-border-cream);
+      border-bottom: 1px solid var(--color-border-cream);
+    }
+
+    .quote-container {
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .quote {
+      font-family: Georgia, serif;
+      font-size: clamp(1.5rem, 3vw, 2.25rem);
+      font-weight: 500;
+      line-height: 1.3;
+      color: var(--color-near-black);
+      margin-bottom: 2rem;
+      font-style: italic;
+    }
+
+    .quote-author {
+      color: var(--color-stone);
+      font-size: 1rem;
+    }
+
+    /* CTA Section */
+    .cta {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 6rem 2rem;
+      text-align: center;
+    }
+
+    .cta h2 {
+      color: var(--color-near-black);
+      margin-bottom: 1.5rem;
+    }
+
+    .cta p {
+      color: var(--color-olive);
+      font-size: 1.25rem;
+      max-width: 500px;
+      margin: 0 auto 2.5rem;
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+    }
+
+    /* Footer */
+    footer {
+      background: var(--color-near-black);
+      padding: 3rem 2rem;
+      border-top: 1px solid var(--color-dark-surface);
+    }
+
+    .footer-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-logo {
+      font-family: Georgia, serif;
+      font-size: 1.25rem;
+      color: var(--color-warm-silver);
+      text-decoration: none;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .footer-links a {
+      color: var(--color-stone);
+      text-decoration: none;
+      font-size: 0.94rem;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover {
+      color: var(--color-warm-silver);
+    }
+
+    .footer-copy {
+      color: var(--color-stone);
+      font-size: 0.88rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+
+      .hero {
+        padding: 4rem 1.5rem 3rem;
+      }
+
+      .brain-interface {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-buttons, .cta-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .btn {
+        width: 100%;
+        max-width: 280px;
+        justify-content: center;
+      }
+
+      .features, .how-it-works, .quote-section, .cta {
+        padding: 4rem 1.5rem;
+      }
+
+      .feature-grid, .steps {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-container {
+        flex-direction: column;
+        gap: 1.5rem;
+        text-align: center;
+      }
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .hero h1, .hero-subtitle, .hero-buttons {
+      animation: fadeInUp 0.8s ease-out forwards;
+    }
+
+    .hero-subtitle {
+      animation-delay: 0.1s;
+    }
+
+    .hero-buttons {
+      animation-delay: 0.2s;
+    }
+
+    .hero-visual {
+      animation: fadeInUp 1s ease-out 0.3s forwards;
+      opacity: 0;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav>
+    <div class="nav-container">
+      <a href="#" class="logo">
+        <div class="logo-icon">🧠</div>
+        Rememory
+      </a>
+      <div class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#how-it-works">How it works</a>
+        <a href="#about">About</a>
+        <a href="#" class="nav-cta">Get Started</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <h1>Your life, understood by an AI that truly knows you</h1>
+    <p class="hero-subtitle">
+      Rememory is your personal AI brain — it remembers every conversation, 
+      learns your patterns, and helps you make sense of your own story.
+    </p>
+    <div class="hero-buttons">
+      <a href="#" class="btn btn-primary">Start Your Journey</a>
+      <a href="#" class="btn btn-secondary">See How It Works</a>
+    </div>
+
+    <div class="hero-visual">
+      <div class="brain-interface">
+        <div class="brain-node">
+          <div class="brain-node-header">
+            <div class="brain-node-icon icon-memory">📸</div>
+            <div class="brain-node-title">Memories</div>
+          </div>
+          <div class="brain-node-content">
+            "That rainy Tuesday in Prague, 2019. The café with the blue door..."
+          </div>
+        </div>
+        <div class="brain-node">
+          <div class="brain-node-header">
+            <div class="brain-node-icon icon-thought">💭</div>
+            <div class="brain-node-title">Thoughts</div>
+          </div>
+          <div class="brain-node-content">
+            "I've been thinking about changing careers since March..."
+          </div>
+        </div>
+        <div class="brain-node">
+          <div class="brain-node-header">
+            <div class="brain-node-icon icon-dream">🌙</div>
+            <div class="brain-node-title">Dreams</div>
+          </div>
+          <div class="brain-node-content">
+            "Flying over mountains last night. Felt free, unstoppable..."
+          </div>
+        </div>
+        <div class="brain-node">
+          <div class="brain-node-header">
+            <div class="brain-node-icon icon-life">📅</div>
+            <div class="brain-node-title">Life Events</div>
+          </div>
+          <div class="brain-node-content">
+            "Promoted to lead, October 14th. Mixed feelings but excited..."
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section (Dark) -->
+  <section class="features" id="features">
+    <div class="features-container">
+      <h2>Everything that makes you, you</h2>
+      <p class="features-subtitle">
+        Rememory connects the dots across your entire life — not just facts, but feelings, patterns, and meaning.
+      </p>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="feature-icon">🔗</div>
+          <h3>Connected Memories</h3>
+          <p>Every conversation, photo, and thought linked together. Ask "What was I feeling last summer?" and get a real answer.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔮</div>
+          <h3>Pattern Recognition</h3>
+          <p>Your AI notices cycles you miss. "You tend to doubt yourself before big decisions. Here's what happened last time..."</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📝</div>
+          <h3>Life Journal</h3>
+          <p>Natural daily check-ins via chat. No blank page anxiety — just talk to your AI like a friend who remembers everything.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🎯</div>
+          <h3>Goal Tracking</h3>
+          <p>Not productivity theater. Real understanding of what you actually want, based on what you've said over months.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔒</div>
+          <h3>Your Data, Yours</h3>
+          <p>End-to-end encrypted. Export anytime. We can't read your memories even if we wanted to — and we don't.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🌐</div>
+          <h3>Multimodal</h3>
+          <p>Voice memos, photos, screenshots, locations. Your brain doesn't just use text — neither does Rememory.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section class="how-it-works" id="how-it-works">
+    <h2>How it works</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-number">1</div>
+        <h4>Share Naturally</h4>
+        <p>Text, voice, or photos. Chat with Rememory like a close friend. No forms, no structured input.</p>
+      </div>
+      <div class="step">
+        <div class="step-number">2</div>
+        <h4>It Connects</h4>
+        <p>Rememory builds your personal knowledge graph — people, places, emotions, events, all linked.</p>
+      </div>
+      <div class="step">
+        <div class="step-number">3</div>
+        <h4>You Understand</h4>
+        <p>Ask anything about yourself. Get insights, reminders of forgotten moments, and gentle perspective.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quote Section -->
+  <section class="quote-section">
+    <div class="quote-container">
+      <p class="quote">
+        "I asked Rememory what I was passionate about five years ago. 
+        It reminded me of dreams I'd completely forgotten. 
+        That conversation changed my career."
+      </p>
+      <p class="quote-author">— Early user, beta program</p>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta">
+    <h2>Ready to meet your AI brain?</h2>
+    <p>Start building your memory. The sooner you begin, the more it will know about you.</p>
+    <div class="cta-buttons">
+      <a href="#" class="btn btn-primary">Get Started — It's Free</a>
+      <a href="#" class="btn btn-secondary">Learn More</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-container">
+      <a href="#" class="footer-logo">Rememory</a>
+      <div class="footer-links">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">Contact</a>
+      </div>
+      <span class="footer-copy">© 2026 Rememory</span>
+    </div>
+  </footer>
+</body>
+</html>
